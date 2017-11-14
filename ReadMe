@@ -1,0 +1,21 @@
+ssh -v -i ~/Desktop/aws-dl.pem ubuntu@13.229.135.57
+
+scp -i ~/Desktop/aws-dL.pem -r ~/Desktop/cnn-text-classification-pytorch.zip ubuntu@13.229.135.57:~/.
+
+unzip transfer.zip
+
+source ~/envs/deepL/bin/activate
+
+pip3 install 
+
+
+5009 HKUST Linux
+ssh msbd5009stu21@csl2wk10.cse.ust.hk
+
+
+python3 and the hadoop ’s location of files 
+/usr/local/Cellar/python3/3.6.2/Frameworks/Python.framework/Versions/3.6/bin
+
+
+starting the spark command
+spark-shell
