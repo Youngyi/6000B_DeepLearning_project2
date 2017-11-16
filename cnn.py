@@ -12,14 +12,13 @@ import matplotlib.pyplot as plt
 import time
 import os
 
-
-# Data augmentation and normalization for training
-# Just normalization for validation
+#read data and transfer the size, due by the model 
 data_transforms = {
 	'train': transforms.Compose([
 		transforms.RandomSizedCrop(224),
 		transforms.RandomHorizontalFlip(),
 		transforms.ToTensor(),
+		#thoes parameters just a best scala
 		transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
 	]),
 	'val': transforms.Compose([
@@ -39,29 +38,14 @@ dataloders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=64,
 			  for x in ['train', 'val']}
 dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'val']}
 class_names = image_datasets['train'].classes
-
+# use the gpu to solve this model , is_available() didn't set true or false
 use_gpu = torch.cuda.is_available()
 
-# Get a batch of training data
+# data batch, must use dataloder method
 inputs, classes = next(iter(dataloders['train']))
 
 # Make a grid from batch
 out = torchvision.utils.make_grid(inputs)
-
-
-######################################################################
-# Training the model
-# ------------------
-#
-# Now, let's write a general function to train a model. Here, we will
-# illustrate:
-#
-# -  Scheduling the learning rate
-# -  Saving the best model
-#
-# In the following, parameter ``scheduler`` is an LR scheduler object from
-# ``torch.optim.lr_scheduler``.
-
 
 def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
 	since = time.time()
@@ -135,8 +119,9 @@ def train_model(model, criterion, optimizer, scheduler, num_epochs=25):
 	model.load_state_dict(best_model_wts)
 	return model
 
-
+#after research some paper and documentation, use the resnet18
 model_ft = models.resnet18(pretrained=True)
+
 num_ftrs = model_ft.fc.in_features
 model_ft.fc = nn.Linear(num_ftrs, 5)
 
@@ -151,15 +136,7 @@ optimizer_ft = optim.Adam(model_ft.parameters())
 # Decay LR by a factor of 0.1 every 7 epochs
 exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
 
-######################################################################
-# Train and evaluate
-# ^^^^^^^^^^^^^^^^^^
-#
-# It should take around 15-25 min on CPU. On GPU though, it takes less than a
-# minute.
-#
-
 model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler,
-					   num_epochs=40)
+					   num_epochs=25)
 
 ######################################################################
