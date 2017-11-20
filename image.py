@@ -4,17 +4,31 @@ from skimage.transform import resize
 from matplotlib import pyplot as plt
 import os
 
-train = open("val.txt", "r+")
+train = open("train.txt", "r+")
 
 def process(file_):
 	im = imread(file_)
 	image = resize(im, (224, 224))
 	output = file_.split("/")
-	fname = os.path.join("val", output[2], output[3])
+	fname = os.path.join("train", output[2], output[3])
 	imsave(fname,image)
-
-#process("yas.jpg")
 
 for line in train:
 	values = line.split()[0]
 	process(values)
+
+
+
+# val = open("val.txt", "r+")
+
+# def process(file_):
+# 	im = imread(file_)
+# 	image = resize(im, (224, 224))
+# 	output = file_.split("/")
+# 	fname = os.path.join("val", output[2], output[3])
+# 	imsave(fname,image)
+
+
+# for line in val:
+# 	values = line.split()[0]
+# 	process(values)
