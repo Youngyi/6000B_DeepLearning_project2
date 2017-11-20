@@ -53,7 +53,7 @@ def train_model(model, file):
 # Test model
 def restore_cnn():
         w_file = open('project2_20459219', 'w')
-        cnnTL = torch.load('cnn.pkl')
+        cnnTL = torch.load('cnn.pkl')# transfer learning about this module
         if use_gpu:
             cnnTL = cnnTL.cuda()
         train_model(cnnTL, w_file)
